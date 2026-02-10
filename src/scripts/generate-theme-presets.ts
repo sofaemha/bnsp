@@ -111,6 +111,7 @@ async function main() {
   const formatted = execFileSync("npx", ["@biomejs/biome", "format", "--stdin-file-path", outputPath], {
     input: updated,
     encoding: "utf8",
+    shell: process.platform === "win32", // Required for Windows to run npx
   });
 
   if (formatted === fileContent) {
