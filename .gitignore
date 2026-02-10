@@ -17,6 +17,7 @@
 /build
 
 # misc
+/.bot
 .DS_Store
 *.pem
 *.sh
