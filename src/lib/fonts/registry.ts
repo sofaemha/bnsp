@@ -77,18 +77,10 @@ const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
 });
 
-export const fontRegistry = {
+export const fontArchive = {
   inter: {
     label: "Inter",
     font: inter,
-  },
-  roboto: {
-    label: "Roboto",
-    font: roboto,
-  },
-  poppins: {
-    label: "Poppins",
-    font: poppins,
   },
   geist: {
     label: "Geist",
@@ -106,10 +98,6 @@ export const fontRegistry = {
     label: "Nunito",
     font: nunito,
   },
-  gabriela: {
-    label: "Gabriela",
-    font: gabriela,
-  },
   outfit: {
     label: "Outfit",
     font: outfit,
@@ -125,6 +113,21 @@ export const fontRegistry = {
   greatVibes: {
     label: "Great Vibes",
     font: greatVibes,
+  },
+};
+
+export const fontRegistry = {
+  roboto: {
+    label: "Roboto",
+    font: roboto,
+  },
+  poppins: {
+    label: "Poppins",
+    font: poppins,
+  },
+  gabriela: {
+    label: "Gabriela",
+    font: gabriela,
   },
 } as const;
 

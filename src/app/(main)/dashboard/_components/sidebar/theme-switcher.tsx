@@ -25,11 +25,11 @@ export function ThemeSwitcher() {
       {/* SYSTEM */}
       <Monitor className="hidden [html[data-theme-mode=system]_&]:block" />
 
-      {/* DARK (resolved) */}
-      <Sun className="hidden dark:block [html[data-theme-mode=system]_&]:hidden" />
+      {/* LIGHT */}
+      <Sun className="block dark:hidden [html[data-theme-mode=system]_&]:hidden" />
 
-      {/* LIGHT (resolved) */}
-      <Moon className="block dark:hidden [html[data-theme-mode=system]_&]:hidden" />
+      {/* DARK */}
+      <Moon className="hidden dark:block [html[data-theme-mode=system]_&]:hidden" />
     </Button>
   );
 }

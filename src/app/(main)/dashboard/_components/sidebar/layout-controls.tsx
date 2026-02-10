@@ -108,9 +108,6 @@ export function LayoutControls() {
           <div className="space-y-1.5">
             <h4 className="font-medium text-sm leading-none">Preferences</h4>
             <p className="text-muted-foreground text-xs">Customize your dashboard layout preferences.</p>
-            <p className="font-medium text-muted-foreground text-xs">
-              *Preferences use cookies by default. You can switch between cookies, localStorage, or no storage in code.
-            </p>
           </div>
           <div className="space-y-3 **:data-[slot=toggle-group]:w-full **:data-[slot=toggle-group-item]:flex-1 **:data-[slot=toggle-group-item]:text-xs">
             <div className="space-y-1">
@@ -174,24 +171,6 @@ export function LayoutControls() {
             </div>
 
             <div className="space-y-1">
-              <Label className="font-medium text-xs">Page Layout</Label>
-              <ToggleGroup
-                size="sm"
-                variant="outline"
-                type="single"
-                value={contentLayout}
-                onValueChange={onContentLayoutChange}
-              >
-                <ToggleGroupItem value="centered" aria-label="Toggle centered">
-                  Centered
-                </ToggleGroupItem>
-                <ToggleGroupItem value="full-width" aria-label="Toggle full-width">
-                  Full Width
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </div>
-
-            <div className="space-y-1">
               <Label className="font-medium text-xs">Navbar Behavior</Label>
               <ToggleGroup
                 size="sm"
@@ -205,27 +184,6 @@ export function LayoutControls() {
                 </ToggleGroupItem>
                 <ToggleGroupItem value="scroll" aria-label="Toggle scroll">
                   Scroll
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </div>
-
-            <div className="space-y-1">
-              <Label className="font-medium text-xs">Sidebar Style</Label>
-              <ToggleGroup
-                size="sm"
-                variant="outline"
-                type="single"
-                value={variant}
-                onValueChange={onSidebarStyleChange}
-              >
-                <ToggleGroupItem value="inset" aria-label="Toggle inset">
-                  Inset
-                </ToggleGroupItem>
-                <ToggleGroupItem value="sidebar" aria-label="Toggle sidebar">
-                  Sidebar
-                </ToggleGroupItem>
-                <ToggleGroupItem value="floating" aria-label="Toggle floating">
-                  Floating
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
