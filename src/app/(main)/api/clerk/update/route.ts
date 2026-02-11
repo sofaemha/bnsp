@@ -25,6 +25,7 @@ const updateUserSchema = z.object({
     .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, hyphens (-), and underscores (_)")
     .optional(),
   password: z.string().min(8, "Password must be at least 8 characters").optional(),
+  address: z.string().min(1, "Address is required").optional(),
   role: z.enum(["admin", "eksekutif", "manajer", "supervisor", "karyawan"]).optional(),
   currentUserRole: z.string().min(1, "Current user role is required"),
 });
@@ -50,7 +51,8 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const { userId, firstName, lastName, email, username, password, role, currentUserRole } = validationResult.data;
+    const { userId, firstName, lastName, email, username, password, address, role, currentUserRole } =
+      validationResult.data;
 
     const client = await clerkClient();
 
@@ -186,6 +188,13 @@ export async function PATCH(request: NextRequest) {
       }
     }
 
+    // Handle address update
+    if (address !== undefined) {
+      await client.users.updateUserMetadata(userId, {
+        publicMetadata: { address },
+      });
+    }
+
     return NextResponse.json({
       success: true,
       message: "User updated successfully",
@@ -197,6 +206,7 @@ export async function PATCH(request: NextRequest) {
           email: email !== undefined,
           username: username !== undefined,
           password: password !== undefined,
+          address: address !== undefined,
           role: role !== undefined,
         },
       },

@@ -27,6 +27,7 @@ type UserData = {
   fullName: string;
   username: string;
   email: string;
+  address: string;
   role: string;
   created: string;
   updated: string;
@@ -101,6 +102,7 @@ export function NavUser({
               "N/A",
             username: rootUser.username,
             email: currentUser.publicUserData.identifier || "N/A",
+            address: (currentUser.publicUserData.publicMetadata?.address as string) || "N/A",
             role: roleFormatted,
             created: formatLongDate(currentUser.createdAt),
             updated: formatLongDate(currentUser.updatedAt),

@@ -1,6 +1,6 @@
-import { Briefcase, UserCheck, UserCog, Users } from "lucide-react";
+import { Briefcase, Shield, ShieldCheck, TrendingUp, Users } from "lucide-react";
 
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"; // Assuming CardContent is also from ui/card
 
 interface User {
   role: string;
@@ -12,84 +12,98 @@ interface SectionCardsProps {
 }
 
 export function SectionCards({ users }: SectionCardsProps) {
-  // Count users by role (excluding admin)
-  const karyawanCount = users.filter((user) => user.role.toLowerCase() === "karyawan").length;
-  const supervisorCount = users.filter((user) => user.role.toLowerCase() === "supervisor").length;
-  const manajerCount = users.filter((user) => user.role.toLowerCase() === "manajer").length;
-  const direkturCount = users.filter(
-    (user) => user.role.toLowerCase() === "direktur" || user.role.toLowerCase() === "eksekutif",
-  ).length;
+  // Count users by role
+  const totalKaryawan = users.filter((user) => user.role.toLowerCase() === "karyawan").length;
+  const totalSupervisor = users.filter((user) => user.role.toLowerCase() === "supervisor").length;
+  const totalManajer = users.filter((user) => user.role.toLowerCase() === "manajer").length;
+  const totalDirektur = users.filter((user) => user.role.toLowerCase() === "direktur").length;
+  const totalEksekutif = users.filter((user) => user.role.toLowerCase() === "eksekutif").length;
+  const totalAdmin = users.filter((user) => user.role.toLowerCase() === "admin").length;
 
   return (
-    <div className="grid @5xl/main:grid-cols-4 @xl/main:grid-cols-2 grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
-      {/* Karyawan Card */}
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardDescription>Karyawan</CardDescription>
-            <Users className="size-4 text-muted-foreground" />
-          </div>
-          <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">{karyawanCount}</CardTitle>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
+      {/* Total Karyawan */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Karyawan</CardTitle>
+          <Users className="size-4 text-muted-foreground" />
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="text-muted-foreground">
-            {karyawanCount === 0 ? "No employees" : karyawanCount === 1 ? "1 employee" : `${karyawanCount} employees`}
-          </div>
-        </CardFooter>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalKaryawan}</div>
+          <p className="text-xs text-muted-foreground">
+            {totalKaryawan === 1 ? "1 employee" : `${totalKaryawan} employees`}
+          </p>
+        </CardContent>
       </Card>
 
-      {/* Supervisor Card */}
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardDescription>Supervisor</CardDescription>
-            <UserCheck className="size-4 text-muted-foreground" />
-          </div>
-          <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">
-            {supervisorCount}
-          </CardTitle>
+      {/* Total Supervisor */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Supervisor</CardTitle>
+          <TrendingUp className="size-4 text-muted-foreground" />{" "}
+          {/* Using TrendingUp as a placeholder for UserCheck/UserCog */}
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="text-muted-foreground">
-            {supervisorCount === 0
-              ? "No supervisors"
-              : supervisorCount === 1
-                ? "1 supervisor"
-                : `${supervisorCount} supervisors`}
-          </div>
-        </CardFooter>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalSupervisor}</div>
+          <p className="text-xs text-muted-foreground">
+            {totalSupervisor === 1 ? "1 supervisor" : `${totalSupervisor} supervisors`}
+          </p>
+        </CardContent>
       </Card>
 
-      {/* Manajer Card */}
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardDescription>Manajer</CardDescription>
-            <UserCog className="size-4 text-muted-foreground" />
-          </div>
-          <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">{manajerCount}</CardTitle>
+      {/* Total Manajer */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Manajer</CardTitle>
+          <TrendingUp className="size-4 text-muted-foreground" />{" "}
+          {/* Using TrendingUp as a placeholder for UserCheck/UserCog */}
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="text-muted-foreground">
-            {manajerCount === 0 ? "No managers" : manajerCount === 1 ? "1 manager" : `${manajerCount} managers`}
-          </div>
-        </CardFooter>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalManajer}</div>
+          <p className="text-xs text-muted-foreground">
+            {totalManajer === 1 ? "1 manager" : `${totalManajer} managers`}
+          </p>
+        </CardContent>
       </Card>
 
-      {/* Direktur Card */}
-      <Card className="@container/card">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardDescription>Direktur</CardDescription>
-            <Briefcase className="size-4 text-muted-foreground" />
-          </div>
-          <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">{direkturCount}</CardTitle>
+      {/* Total Direktur */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Direktur</CardTitle>
+          <Briefcase className="size-4 text-muted-foreground" />
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="text-muted-foreground">
-            {direkturCount === 0 ? "No directors" : direkturCount === 1 ? "1 director" : `${direkturCount} directors`}
-          </div>
-        </CardFooter>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalDirektur}</div>
+          <p className="text-xs text-muted-foreground">
+            {totalDirektur === 1 ? "1 director" : `${totalDirektur} directors`}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Total Eksekutif */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Eksekutif</CardTitle>
+          <Shield className="size-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalEksekutif}</div>
+          <p className="text-xs text-muted-foreground">
+            {totalEksekutif === 1 ? "1 executive" : `${totalEksekutif} executives`}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Total Admin */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Admin</CardTitle>
+          <ShieldCheck className="size-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalAdmin}</div>
+          <p className="text-xs text-muted-foreground">{totalAdmin === 1 ? "1 admin" : `${totalAdmin} admins`}</p>
+        </CardContent>
       </Card>
     </div>
   );

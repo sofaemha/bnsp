@@ -80,6 +80,9 @@ function transformClerkUsersToTableData(
     const rolePart = roleRaw.split(":")[1] || roleRaw;
     const roleFormatted = rolePart.charAt(0).toUpperCase() + rolePart.slice(1);
 
+    // Extract address from public metadata (need to fetch full user data)
+    const address = "N/A"; // Will be populated by getUserData
+
     return {
       id: index + 1, // Index + 1
       uid: member.publicUserData.userId, // Clerk User ID
@@ -87,6 +90,7 @@ function transformClerkUsersToTableData(
       fullName: `${member.publicUserData.firstName || ""} ${member.publicUserData.lastName || ""}`.trim() || "N/A", // Full Name
       username: member.publicUserData.identifier.split("@")[0] || "N/A", // Username from email
       email: member.publicUserData.identifier || "N/A", // Email
+      address, // Address from user metadata
       role: roleFormatted || "N/A", // Role (formatted)
       created: formatLongDate(member.createdAt), // Created date (long format)
       updated: formatLongDate(member.updatedAt), // Updated date (long format)
@@ -123,6 +127,7 @@ async function getUserData(userId: string) {
           return {
             role: roleFormatted,
             username: user.username || "N/A",
+            address: (user.publicMetadata?.address as string) || "N/A",
           };
         }
       }
@@ -161,6 +166,7 @@ export default async function Page() {
           ...user,
           role: userData.role,
           username: userData.username,
+          address: userData.address || "N/A",
         };
       }),
     );

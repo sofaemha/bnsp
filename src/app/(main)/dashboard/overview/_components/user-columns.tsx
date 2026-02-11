@@ -54,10 +54,9 @@ function ActionsCell({ user }: { user: User }) {
         userName={user.fullName}
         currentUserId={currentUser.id}
         currentUserRole={currentUser.role}
-        onDeleteSuccess={() => {
+        onDeleteSuccess={async () => {
           // Refresh the page to update the user list
           window.location.reload();
-          redirect("/auth/v2/login");
         }}
       />
       <DropdownMenu>

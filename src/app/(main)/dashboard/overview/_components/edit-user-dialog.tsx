@@ -33,6 +33,7 @@ const editUserFormSchema = z.object({
     .min(3, "Username must be at least 3 characters")
     .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, hyphens (-), and underscores (_)"),
   password: z.string().min(8, "Password must be at least 8 characters").optional().or(z.literal("")),
+  address: z.string().min(1, "Address is required").optional().or(z.literal("")),
   role: z.enum(["admin", "eksekutif", "manajer", "supervisor", "karyawan"]),
 });
 
@@ -125,6 +126,7 @@ interface EditUserDialogProps {
     fullName: string;
     email: string;
     username: string;
+    address?: string;
     role: string;
   };
   currentUserRole?: string;
@@ -159,6 +161,7 @@ export function EditUserDialog({
       email: user.email,
       username: user.username,
       password: "",
+      address: user.address || "",
       role: user.role.toLowerCase() as "admin" | "eksekutif" | "manajer" | "supervisor" | "karyawan",
     },
   });
@@ -277,6 +280,21 @@ export function EditUserDialog({
                     <Input type="email" placeholder="john.doe@example.com" {...field} disabled={!canEditBasicInfo} />
                   </FormControl>
                   <FormDescription>User will be notified of email changes</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Address */}
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Jl. Example Street No. 123" {...field} disabled={!canEditBasicInfo} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

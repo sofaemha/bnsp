@@ -169,6 +169,9 @@ export function NavMain({ items }: NavMainProps) {
         open={isCreateUserDialogOpen}
         onOpenChange={setIsCreateUserDialogOpen}
         currentUserRole={rootUser.role}
+        onCreateSuccess={() => {
+          window.location.reload();
+        }}
       />
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">

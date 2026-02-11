@@ -11,6 +11,7 @@ const createUserSchema = z.object({
   email: z.string().email("Invalid email address"),
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(8, "Password must be at least 8 characters"),
+  address: z.string().min(1, "Address is required"),
   role: z.enum(["admin", "eksekutif", "manajer", "supervisor", "karyawan"]),
 });
 
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { firstName, lastName, email, username, password, role } = validationResult.data;
+    const { firstName, lastName, email, username, password, address, role } = validationResult.data;
 
     // Get organization ID from environment variable
     const organizationId = process.env.CLERK_ORGANIZATION_ID;
@@ -52,6 +53,46 @@ export async function POST(request: NextRequest) {
 
     const client = await clerkClient();
 
+    // Check if email already exists
+    try {
+      const existingUsersByEmail = await client.users.getUserList({
+        emailAddress: [email],
+      });
+
+      if (existingUsersByEmail.data.length > 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Email already exists",
+            error: `A user with email "${email}" already exists in the system.`,
+          },
+          { status: 409 },
+        );
+      }
+    } catch (error) {
+      console.error("Error checking email uniqueness:", error);
+    }
+
+    // Check if username already exists
+    try {
+      const existingUsersByUsername = await client.users.getUserList({
+        username: [username],
+      });
+
+      if (existingUsersByUsername.data.length > 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Username already exists",
+            error: `Username "${username}" is already taken. Please choose a different username.`,
+          },
+          { status: 409 },
+        );
+      }
+    } catch (error) {
+      console.error("Error checking username uniqueness:", error);
+    }
+
     // Create user in Clerk
     const user = await client.users.createUser({
       emailAddress: [email],
@@ -59,6 +100,9 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       password,
+      publicMetadata: {
+        address: address,
+      },
     });
 
     // Add user to organization with role

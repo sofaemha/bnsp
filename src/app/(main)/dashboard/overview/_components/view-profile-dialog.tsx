@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase, Calendar, Mail, Shield, User as UserIcon } from "lucide-react";
+import { Briefcase, Calendar, Mail, MapPin, Shield, User as UserIcon } from "lucide-react";
 import type { z } from "zod";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -93,6 +93,16 @@ export function ViewProfileDialog({ open, onOpenChange, user }: ViewProfileDialo
                 <div className="flex-1">
                   <p className="text-xs font-medium text-muted-foreground">Username</p>
                   <p className="text-sm font-medium">@{user.username}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 rounded-lg border border-border/50 bg-muted/30 p-3">
+                <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                  <MapPin className="size-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs font-medium text-muted-foreground">Address</p>
+                  <p className="text-sm font-medium">{user.address}</p>
                 </div>
               </div>
 

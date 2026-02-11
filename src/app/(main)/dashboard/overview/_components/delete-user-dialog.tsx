@@ -86,7 +86,8 @@ export function DeleteUserDialog({
           description: result.message || "An error occurred",
         });
       }
-    } catch {
+    } catch (e) {
+      console.error(e);
       toast.error("Error", {
         description: "Failed to delete user. Please try again.",
       });

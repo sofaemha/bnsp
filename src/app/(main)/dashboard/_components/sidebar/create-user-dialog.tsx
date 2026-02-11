@@ -34,6 +34,7 @@ const createUserFormSchema = z.object({
     .min(8, "Username must be at least 8 characters")
     .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, hyphens (-), and underscores (_)"),
   password: z.string().min(8, "Password must be at least 8 characters"),
+  address: z.string().min(1, "Address is required"),
   addToOrganization: z.boolean().default(true),
   role: z.enum(["admin", "eksekutif", "manajer", "supervisor", "karyawan"]),
 });
@@ -62,9 +63,15 @@ interface CreateUserDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentUserRole?: string;
+  onCreateSuccess?: () => void;
 }
 
-export function CreateUserDialog({ open, onOpenChange, currentUserRole = "karyawan" }: CreateUserDialogProps) {
+export function CreateUserDialog({
+  open,
+  onOpenChange,
+  currentUserRole = "karyawan",
+  onCreateSuccess,
+}: CreateUserDialogProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -76,6 +83,7 @@ export function CreateUserDialog({ open, onOpenChange, currentUserRole = "karyaw
       email: "",
       username: "",
       password: "",
+      address: "",
       addToOrganization: true,
       role: "karyawan",
     },
@@ -104,6 +112,7 @@ export function CreateUserDialog({ open, onOpenChange, currentUserRole = "karyaw
         });
         form.reset();
         onOpenChange(false);
+        onCreateSuccess?.();
       } else {
         toast.error("Failed to create user", {
           description: result.message || "An error occurred",
@@ -170,6 +179,21 @@ export function CreateUserDialog({ open, onOpenChange, currentUserRole = "karyaw
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input type="email" placeholder="john.doe@example.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Address */}
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Jl. Example Street No. 123" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
