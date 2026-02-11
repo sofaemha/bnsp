@@ -20,9 +20,9 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
             <div className="flex-1 space-y-1 text-primary-foreground">
               <h2 className="font-medium">Profil</h2>
               <p className="text-sm">
-                BNSP merupakan badan independen yang bertanggung jawab kepada Presiden yang memiliki kewenangan sebagai
-                otoritas sertifikasi personil dan bertugas melaksanakan sertifikasi kompetensi profesi bagi tenaga
-                kerja.
+                PT Maju Jaya merupakan badan independen yang bertanggung jawab kepada Presiden yang memiliki kewenangan
+                sebagai otoritas sertifikasi personil dan bertugas melaksanakan sertifikasi kompetensi profesi bagi
+                tenaga kerja.
               </p>
             </div>
             <Separator orientation="vertical" className="mx-3 h-auto!" />
@@ -33,7 +33,7 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
                 Khusus Ibukota Jakarta 13630
               </p>
               <p className="text-sm">
-                <a href="mailto:admin@bnsp.go.id">admin@bnsp.go.id</a> &nbsp; | &nbsp;
+                <a href="mailto:admin@majujaya.go.id">admin@majujaya.go.id</a> &nbsp; | &nbsp;
                 <a href="tel:+622150202609">(021) 50202609</a>
               </p>
             </div>
