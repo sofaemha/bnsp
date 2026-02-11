@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -25,7 +27,10 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useRootUser } from "@/data/users";
 import type { NavGroup, NavMainItem } from "@/navigation/sidebar/sidebar-items";
+
+import { CreateUserDialog } from "./create-user-dialog";
 
 interface NavMainProps {
   readonly items: readonly NavGroup[];
@@ -144,6 +149,8 @@ const NavItemCollapsed = ({
 export function NavMain({ items }: NavMainProps) {
   const path = usePathname();
   const { state, isMobile } = useSidebar();
+  const [isCreateUserDialogOpen, setIsCreateUserDialogOpen] = useState(false);
+  const rootUser = useRootUser();
 
   const isItemActive = (url: string, subItems?: NavMainItem["subItems"]) => {
     if (subItems?.length) {
@@ -158,17 +165,24 @@ export function NavMain({ items }: NavMainProps) {
 
   return (
     <>
+      <CreateUserDialog
+        open={isCreateUserDialogOpen}
+        onOpenChange={setIsCreateUserDialogOpen}
+        currentUserRole={rootUser.role}
+      />
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
           <SidebarMenu>
             <SidebarMenuItem className="flex items-center gap-2">
               <SidebarMenuButton
                 tooltip="Quick Create"
+                onClick={() => setIsCreateUserDialogOpen(true)}
                 className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
               >
                 <PlusCircleIcon />
                 <span>Quick Create</span>
               </SidebarMenuButton>
+
               <Button
                 size="icon"
                 className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
