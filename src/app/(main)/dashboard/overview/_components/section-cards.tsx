@@ -23,21 +23,19 @@ export function SectionCards({ users }: SectionCardsProps) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
       {/* Total Karyawan */}
-      <Card>
+      <Card className="gap-2">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Karyawan</CardTitle>
           <Users className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalKaryawan}</div>
-          <p className="text-xs text-muted-foreground">
-            {totalKaryawan === 1 ? "1 employee" : `${totalKaryawan} employees`}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1.5">{totalKaryawan === 1 ? "employee" : `employees`}</p>
         </CardContent>
       </Card>
 
       {/* Total Supervisor */}
-      <Card>
+      <Card className="gap-2">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Supervisor</CardTitle>
           <TrendingUp className="size-4 text-muted-foreground" />{" "}
@@ -45,14 +43,12 @@ export function SectionCards({ users }: SectionCardsProps) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalSupervisor}</div>
-          <p className="text-xs text-muted-foreground">
-            {totalSupervisor === 1 ? "1 supervisor" : `${totalSupervisor} supervisors`}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1.5">{totalSupervisor === 1 ? "supervisor" : `supervisors`}</p>
         </CardContent>
       </Card>
 
       {/* Total Manajer */}
-      <Card>
+      <Card className="gap-2">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Manajer</CardTitle>
           <TrendingUp className="size-4 text-muted-foreground" />{" "}
@@ -60,49 +56,43 @@ export function SectionCards({ users }: SectionCardsProps) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalManajer}</div>
-          <p className="text-xs text-muted-foreground">
-            {totalManajer === 1 ? "1 manager" : `${totalManajer} managers`}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1.5">{totalManajer === 1 ? "manager" : `managers`}</p>
         </CardContent>
       </Card>
 
       {/* Total Direktur */}
-      <Card>
+      <Card className="gap-2">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Direktur</CardTitle>
           <Briefcase className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalDirektur}</div>
-          <p className="text-xs text-muted-foreground">
-            {totalDirektur === 1 ? "1 director" : `${totalDirektur} directors`}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1.5">{totalDirektur === 1 ? "director" : `directors`}</p>
         </CardContent>
       </Card>
 
       {/* Total Eksekutif */}
-      <Card>
+      <Card className="gap-2">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Eksekutif</CardTitle>
           <Shield className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalEksekutif}</div>
-          <p className="text-xs text-muted-foreground">
-            {totalEksekutif === 1 ? "1 executive" : `${totalEksekutif} executives`}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1.5">{totalEksekutif === 1 ? "executive" : `executives`}</p>
         </CardContent>
       </Card>
 
       {/* Total Admin */}
-      <Card>
+      <Card className="gap-2">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Admin</CardTitle>
           <ShieldCheck className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalAdmin}</div>
-          <p className="text-xs text-muted-foreground">{totalAdmin === 1 ? "1 admin" : `${totalAdmin} admins`}</p>
+          <p className="text-xs text-muted-foreground mt-1.5">{totalAdmin === 1 ? "admin" : `admins`}</p>
         </CardContent>
       </Card>
     </div>

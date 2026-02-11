@@ -11,7 +11,7 @@ export default function LoginV2() {
   const { isSignedIn } = useUser();
 
   if (isSignedIn) {
-    return redirect("/dashboard/default");
+    return redirect("/dashboard/overview");
   }
   return (
     <>
