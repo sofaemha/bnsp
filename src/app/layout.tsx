@@ -21,7 +21,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   const { theme_mode, theme_preset, content_layout, navbar_style, sidebar_variant, sidebar_collapsible, font } =
     PREFERENCE_DEFAULTS;
   return (
-    <ClerkProvider afterSignOutUrl="/auth/v2/login">
+    <ClerkProvider
+      afterSignOutUrl="/auth/v2/login"
+      signInUrl="/auth/v2/login"
+      signInForceRedirectUrl="/dashboard/overview"
+    >
       <html
         lang="en"
         data-theme-mode={theme_mode}

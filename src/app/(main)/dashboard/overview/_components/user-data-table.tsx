@@ -3,11 +3,10 @@
 
 import * as React from "react";
 
-import { Plus } from "lucide-react";
+import { Search } from "lucide-react";
 import type { z } from "zod";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -22,10 +21,33 @@ import { userColumns } from "./user-columns";
 
 export function UserDataTable({ data: initialData }: { data: z.infer<typeof userSchema>[] }) {
   const [data, setData] = React.useState(() => initialData);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchFilter, setSearchFilter] = React.useState<"role" | "name" | "email">("role");
 
   const columns = withDndColumn(userColumns);
+
+  // Filter data based on search query and filter type
+  const filteredData = React.useMemo(() => {
+    if (!searchQuery) return data;
+
+    return data.filter((user) => {
+      const query = searchQuery.toLowerCase();
+
+      switch (searchFilter) {
+        case "role":
+          return user.role.toLowerCase().includes(query);
+        case "name":
+          return user.fullName.toLowerCase().includes(query);
+        case "email":
+          return user.email.toLowerCase().includes(query);
+        default:
+          return true;
+      }
+    });
+  }, [data, searchQuery, searchFilter]);
+
   const table = useDataTableInstance({
-    data,
+    data: filteredData,
     columns,
     getRowId: (row) => row.id.toString(),
   });
@@ -53,14 +75,35 @@ export function UserDataTable({ data: initialData }: { data: z.infer<typeof user
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="users">All Users</SelectItem>
-            <SelectItem value="active">Active Users</SelectItem>
-            <SelectItem value="inactive">Inactive Users</SelectItem>
           </SelectContent>
         </Select>
         <TabsList className="@4xl/main:flex hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1">
           <TabsTrigger value="users">All Users</TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
+          {/* Search Input */}
+          <div className="relative flex items-center">
+            <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
+            <Input
+              placeholder={`Search by ${searchFilter}...`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-8 w-[200px] lg:w-[300px]"
+            />
+          </div>
+
+          {/* Filter Dropdown */}
+          <Select value={searchFilter} onValueChange={(value: "role" | "name" | "email") => setSearchFilter(value)}>
+            <SelectTrigger className="w-[110px]" size="sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="role">Role</SelectItem>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="email">Email</SelectItem>
+            </SelectContent>
+          </Select>
+
           <DataTableViewOptions table={table} />
         </div>
       </div>

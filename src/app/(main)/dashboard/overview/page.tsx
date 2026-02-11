@@ -1,3 +1,5 @@
+import { clerkClient } from "@clerk/nextjs/server";
+
 import { SectionCards } from "./_components/section-cards";
 import { UserDataTable } from "./_components/user-data-table";
 
@@ -93,6 +95,52 @@ function transformClerkUsersToTableData(
   });
 }
 
+/**
+ * Fetch actual user data from Clerk by user ID
+ */
+async function getUserData(userId: string) {
+  try {
+    const client = await clerkClient();
+
+    // Get user by ID
+    const user = await client.users.getUser(userId);
+
+    if (user) {
+      // Get organization memberships to find role
+      const organizationId = process.env.CLERK_ORGANIZATION_ID;
+      if (organizationId) {
+        const memberships = await client.organizations.getOrganizationMembershipList({
+          organizationId,
+        });
+
+        const membership = memberships.data.find((m) => m?.publicUserData?.userId === userId);
+
+        if (membership) {
+          const roleRaw = membership.role || "";
+          const rolePart = roleRaw.split(":")[1] || roleRaw;
+          const roleFormatted = rolePart.charAt(0).toUpperCase() + rolePart.slice(1);
+
+          return {
+            role: roleFormatted,
+            username: user.username || "N/A",
+          };
+        }
+      }
+    }
+
+    return {
+      role: "N/A",
+      username: "N/A",
+    };
+  } catch (error) {
+    console.error(`Error fetching user data for ${userId}:`, error);
+    return {
+      role: "N/A",
+      username: "N/A",
+    };
+  }
+}
+
 export default async function Page() {
   // Fetch users from Clerk API
   const usersResult = await getAllUsers();
@@ -104,13 +152,27 @@ export default async function Page() {
   if (usersResult?.success) {
     // Transform Clerk data to table format
     userData = transformClerkUsersToTableData(usersResult.data);
+
+    // Fetch actual user data by ID and replace the role and username
+    const updatedUserData = await Promise.all(
+      userData.map(async (user) => {
+        const userData = await getUserData(user.uid);
+        return {
+          ...user,
+          role: userData.role,
+          username: userData.username,
+        };
+      }),
+    );
+
+    userData = updatedUserData;
   } else {
     console.error("❌ Failed to fetch organization members from Clerk");
   }
 
   return (
     <div className="@container/main flex flex-col gap-4 md:gap-6">
-      <SectionCards />
+      <SectionCards users={userData} />
       {userData.length > 0 ? (
         <UserDataTable data={userData} />
       ) : (

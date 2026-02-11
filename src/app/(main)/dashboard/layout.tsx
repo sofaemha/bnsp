@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { getPreference } from "@/server/server-actions";
 
 import { DashboardHeader } from "./_components/sidebar/dashboard-header";
-import { SearchDialog } from "./_components/sidebar/search-dialog";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
   const cookieStore = await cookies();
@@ -42,7 +41,6 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
             <div className="flex items-center gap-1 lg:gap-2">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
-              <SearchDialog />
             </div>
             <DashboardHeader />
           </div>

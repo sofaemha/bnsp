@@ -21,17 +21,32 @@ import { useRootUser } from "@/data/users";
 
 import { DataTableColumnHeader } from "../../../../../components/data-table/data-table-column-header";
 import { DeleteUserDialog } from "./delete-user-dialog";
+import { EditUserDialog } from "./edit-user-dialog";
 import type { userSchema } from "./schema";
+import { ROLE_COLORS, ViewProfileDialog } from "./view-profile-dialog";
 
 type User = z.infer<typeof userSchema>;
 
 // Actions cell component with state
 function ActionsCell({ user }: { user: User }) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isViewProfileOpen, setIsViewProfileOpen] = useState(false);
   const currentUser = useRootUser();
 
   return (
     <>
+      <ViewProfileDialog open={isViewProfileOpen} onOpenChange={setIsViewProfileOpen} user={user} />
+      <EditUserDialog
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        user={user}
+        currentUserRole={currentUser.role}
+        currentUserId={currentUser.id}
+        onEditSuccess={() => {
+          window.location.reload();
+        }}
+      />
       <DeleteUserDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
@@ -53,8 +68,8 @@ function ActionsCell({ user }: { user: User }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>View Profile</DropdownMenuItem>
-          <DropdownMenuItem>Edit User</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setIsViewProfileOpen(true)}>View Profile</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>Edit User</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
             Delete
@@ -125,28 +140,11 @@ export const userColumns: ColumnDef<User>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Role" />,
     cell: ({ row }) => {
       const role = row.original.role;
-
-      // Define color variants based on role hierarchy
-      const getRoleColor = (role: string) => {
-        switch (role.toLowerCase()) {
-          case "admin":
-            return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"; // Highest - Red
-          case "eksekutif":
-            return "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"; // Executive - Purple
-          case "manajer":
-            return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"; // Manager - Blue
-          case "supervisor":
-            return "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"; // Supervisor - Green
-          case "karyawan":
-            return "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400"; // Employee - Gray (lowest)
-          default:
-            return "bg-primary/10 text-primary"; // Default color
-        }
-      };
+      const roleColor = ROLE_COLORS[role.toLowerCase()] || ROLE_COLORS.karyawan;
 
       return (
         <div className="w-24">
-          <span className={`inline-flex items-center rounded-md px-2 py-1 font-medium text-xs ${getRoleColor(role)}`}>
+          <span className={`inline-flex items-center rounded-md border px-2 py-1 font-medium text-xs ${roleColor}`}>
             {role}
           </span>
         </div>
